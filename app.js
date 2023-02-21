@@ -2,8 +2,8 @@ class Ball {
     constructor() {
         this.id = ballCount;
         ballCount++;
-        this.xSpeed = this.getRandomNumber(-7, 7);
-        this.ySpeed = this.getRandomNumber(-7, 7);
+        this.xSpeed = this.getRandomNumber(-7, 7, false);
+        this.ySpeed = this.getRandomNumber(-7, 7, false);
         this.position = {
             'x': Number(document.body.offsetWidth) / 2, 
             'y': Number(document.body.offsetHeight) / 2
@@ -12,6 +12,8 @@ class Ball {
         this.element = document.createElement('div');
         this.element.id = this.id;
         this.element.className = 'ball';
+        this.element.style.backgroundColor = this.getRandomColor();
+        this.element.style.opacity = 0.85;
         document.body.appendChild(this.element);
     }
 
@@ -34,8 +36,17 @@ class Ball {
         }
     }
 
-    getRandomNumber(num1, num2) {
-        return Math.floor(Math.random() * (num2 - num1)) + num1;
+    getRandomNumber(num1, num2, round=true) {
+        let number = Math.random() * (num2 - num1);
+        if (round) {
+            number = Math.floor(number);
+        }
+        number += num1;
+        return number;
+    }
+    
+    getRandomColor() {
+        return `hsl(${this.getRandomNumber(0, 256)}, ${this.getRandomNumber(80, 100)}%, ${this.getRandomNumber(30, 40)}%)`;
     }
 }
 
